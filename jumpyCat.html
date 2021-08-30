@@ -1,78 +1,131 @@
 <html>
-<head>
+  <head>
     <title>Jumpy Cat</title>
     <style>
-    	* { padding: 0; margin: 0; }
-    	canvas { background: #eee; display: block; margin: 0 auto; }
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      canvas {
+        background: #eee;
+        display: block;
+        margin: 0 auto;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <canvas id="jumpyCanvas" width="480" height="320"></canvas>
 
-<canvas id="jumpyCanvas" width="480" height="320"></canvas>
-<div style="display:none;">
-    <img id="source1"
-         src="images/B1.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source2"
-         src="images/B2.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source3"
-         src="images/B3.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source4"
-         src="images/B4.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source5"
-         src="images/B5.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source6"
-         src="images/B6.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source7"
-         src="images/B7.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source8"
-         src="images/B8.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source9"
-         src="images/B9.png"
-         width="90" height="115">
-  </div>
-  <div style="display:none;">
-    <img id="source10"
-         src="images/B10.png"
-         width="90" height="115">
-  </div>
+    <!-- Background Image -->
+    <div style="display: none">
+      <img id="bg" src="images/blues2.jpg" width="480" height="320" />
+    </div>
 
-  <div style="display:none;">
-    <img id="cat"
-         src="images/R3.png"
-         width="42" height="30">
-  </div>
+    <!-- Building Images -->
+    <div style="display: none">
+      <img id="source1" src="images/B1.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source2" src="images/B2.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source3" src="images/B3.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source4" src="images/B4.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source5" src="images/B5.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source6" src="images/B6.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source7" src="images/B7.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source8" src="images/B8.png" width="90" height="115" />
+    </div>
+    <div style="display: none">
+      <img id="source9" src="images/B9.png" width="90" height="115" />
+    </div>
 
-  <div style="display:none;">
-    <img id="catJump"
-         src="images/1_5.png"
-         width="42" height="30">
-  </div>
+    <!-- Cat Running Images -->
+    <div style="display: none">
+      <img id="cat0" src="images/R1.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat1" src="images/R2.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat2" src="images/R3.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat3" src="images/R4.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat4" src="images/R5.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat5" src="images/R6.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat6" src="images/R7.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat7" src="images/R8.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="cat8" src="images/R9.png" width="42" height="30" />
+    </div>
 
-<script src="jumpyCat.js"></script>
+    <!-- Cat Falling Images -->
+    <div style="display: none">
+      <img id="catFall0" src="images/F1.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall1" src="images/F2.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall2" src="images/F3.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall3" src="images/F4.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall4" src="images/F5.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall5" src="images/F6.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall6" src="images/F7.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall7" src="images/F8.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall8" src="images/F9.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall9" src="images/F10.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall10" src="images/F11.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall11" src="images/F12.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall12" src="images/F13.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall13" src="images/F14.png" width="42" height="30" />
+    </div>
+    <div style="display: none">
+      <img id="catFall14" src="images/F15.png" width="42" height="30" />
+    </div>
 
-</body>
+    <script src="jumpyCat.js"></script>
+  </body>
 </html>

@@ -18,6 +18,7 @@ var jumpFlag = false;
 var jumpCount = false;
 var birdSize = 10;
 var score = 0;
+var frameCount = 0;
 
 //pipe data
 var pipes = [];
@@ -96,11 +97,14 @@ function proc()
 {
 	movePipes();
   moveBuildings();
-  if(jumpFlag == true && jumpCount < 50){
+  if(jumpFlag == true && jumpCount < 40){
     cy--;
     jumpCount++;
   }
-  else if(jumpFlag == true && jumpCount >= 50){
+  else if(jumpFlag == true && jumpCount >= 40 && jumpCount < 60){
+    jumpCount++;
+  }
+  else if(jumpFlag == true && jumpCount >= 60){
     cy++;
     jumpCount++;
   }
@@ -191,19 +195,19 @@ function checkBuildings()
 		buildings[0] = 
 					{		x 			:  150,
 							width 		: 	buildingWidth,
-              id        :   Math.floor(Math.random() * 10) + 1,
+              id        :   Math.floor(Math.random() * 8) + 1,
 							scored		:	false
 					};
     buildings[1] = 
     {		x 			:  buildings[0].x + buildingWidth + 100,
         width 		: 	buildingWidth,
-        id        :   Math.floor(Math.random() * 10) + 1,
+        id        :   Math.floor(Math.random() * 8) + 1,
         scored		:	false
     };
     buildings[2] = 
     {		x 			:  buildings[1].x + buildingWidth + 100,
         width 		: 	buildingWidth,
-        id        :   Math.floor(Math.random() * 10) + 1,
+        id        :   Math.floor(Math.random() * 8) + 1,
         scored		:	false
     };
 	}
@@ -213,7 +217,7 @@ function checkBuildings()
 		buildings[buildings.length] = 
 					{		x 			: 	buildings[buildings.length - 1].x + buildingWidth + 100,
 							width 		: 	buildingWidth,
-              id        :   Math.floor(Math.random() * 10) + 1,
+              id        :   Math.floor(Math.random() * 8) + 1,
 							scored		:	false
 					};
 	}
@@ -257,7 +261,13 @@ function fail()
 /////////////////////////////*/
 function draw()
 {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+  frameCount++;
+  if(frameCount == 900){
+    frameCount = 0;
+  }
+	// ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const image = document.getElementById('bg');
+  ctx.drawImage(image, 0, 0, 480, 320);
   drawBuildings();
 	drawPipes();
 	drawBird();
@@ -293,12 +303,10 @@ function drawPipes()
 }
 
 function drawCat(){
-  
-  const image = document.getElementById('cat');
+  const image = document.getElementById('cat'+(Math.floor(frameCount/5)%9).toString());
   ctx.beginPath();
   ctx.drawImage(image, cx, cy, 42, 30);
   ctx.closePath();
-
 }
 
 function drawBird()
