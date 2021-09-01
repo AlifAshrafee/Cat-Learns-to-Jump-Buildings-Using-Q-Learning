@@ -12,7 +12,9 @@ var started = false;
 var cx = 150;
 var cy = 175;
 var jumpFlag = false;
-var jumpCount = false;
+var jumpCount = 0;
+var fallFlag = true;
+var fallCount = 0;
 var score = 0;
 var frameCount = 0;
 
@@ -48,24 +50,36 @@ function inputHandler(e) {
 }
 
 function mainLoop() {
-  if (started) {
-    proc();
-    draw();
-    if (f > 20) {
-      f = 0;
-      play();
+  if (!fallFlag) {
+    if (started) {
+      proc();
+      draw();
+      if (f > 20) {
+        f = 0;
+        play();
+      }
+      else {
+        f++;
+      }
     }
     else {
-      f++;
+      //Loop to learn and play
+      if (lv_init == 'X') {
+        inputHandler(1);
+      }
+      else {
+        play();
+      }
     }
-  }
-  else {
-    //Loop to learn and play
-    if (lv_init == 'X') {
-      inputHandler(1);
+  } else {
+    if (fallCount < 75) {
+      draw();
+      fallCount++;
     }
-    else {
-      play();
+    else if (fallCount == 75) {
+      fallCount = 0;
+      fallFlag = false;
+      fail();
     }
   }
 }
@@ -75,7 +89,9 @@ function mainLoop() {
 //changing the game state//
 /////////////////////////*/
 function proc() {
+
   moveBuildings();
+
   if (jumpFlag == true && jumpCount < 40) {
     cy--;
     jumpCount++;
@@ -113,7 +129,7 @@ function nextBuilding() {
         return buildings[i + 1].x;
       }
     }
-  }else{
+  } else {
     return 0;
   }
 }
@@ -126,7 +142,7 @@ function checkFall() {
     }
   });
   if (!(flag || jumpFlag)) {
-    fail();
+    fallFlag = true;
   }
 }
 
@@ -181,15 +197,21 @@ function fail() {
 //drawing stuff to the screen//
 /////////////////////////////*/
 function draw() {
-  frameCount++;
-  if (frameCount == 900) {
-    frameCount = 0;
-  }
   const image = document.getElementById('bg');
   ctx.drawImage(image, 0, 0, 480, 320);
-  drawBuildings();
-  drawCat();
-  drawScore();
+
+  if (!fallFlag) {
+    frameCount++;
+    if (frameCount == 900) {
+      frameCount = 0;
+    }
+    drawBuildings();
+    drawCat();
+    drawScore();
+  } else {
+    drawBuildings();
+    drawFallingCat();
+  }
 }
 
 function drawBuildings() {
@@ -210,10 +232,16 @@ function drawCat() {
   } else {
     const image = document.getElementById('catFall14');
     ctx.beginPath();
-    ctx.drawImage(image, 150, 290, 42, 30);
+    ctx.drawImage(image, cx, 295, 42, 30);
     ctx.closePath();
   }
+}
 
+function drawFallingCat() {
+  const image = document.getElementById('catFall' + (Math.floor(fallCount / 5) % 15).toString());
+  ctx.beginPath();
+  ctx.drawImage(image, cx + 21, cy + (Math.floor(fallCount / 5) % 15 + 1) * 8, 42, 30);
+  ctx.closePath();
 }
 
 function drawScore() {
@@ -312,7 +340,7 @@ function play() {
     env = new JumpyCat();
     env.reset();
     lv_state = env.getState();
-    lv_action = env.getAction(lv_state); 
+    lv_action = env.getAction(lv_state);
     env.implementAction(lv_action);
   }
   else {
